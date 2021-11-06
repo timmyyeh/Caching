@@ -22,9 +22,10 @@ namespace caching.Controllers
         }
 
         [HttpGet("distributedCache")]
-        public IActionResult GetUsers()
+        public async Task<List<string>> GetUsers()
         {
-            return new JsonResult(new {users = _userService.GetUsers()}) {StatusCode = StatusCodes.Status200OK};
+            List<string> users = await _userService.GetUsers();
+            return users;
         }
 
         [HttpGet]
