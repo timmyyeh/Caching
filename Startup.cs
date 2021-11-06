@@ -27,6 +27,8 @@ namespace caching
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddApplication(Configuration);
+            services.AddScoped<IUserService, UserService>();
             services.AddMemoryCache();
             services.AddControllers();
             services.AddSwaggerGen(c =>

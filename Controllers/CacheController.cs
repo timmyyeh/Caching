@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace caching.Controllers
 {
@@ -11,10 +13,18 @@ namespace caching.Controllers
     public class CacheController : ControllerBase
     {
         private readonly IMemoryCache _cache;
+        private readonly IUserService _userService;
 
-        public CacheController(IMemoryCache cache)
+        public CacheController(IMemoryCache cache, IUserService userService)
         {
             _cache = cache;
+            _userService = userService;
+        }
+
+        [HttpGet("distributedCache")]
+        public IActionResult GetUsers()
+        {
+            return new JsonResult(new {users = _userService.GetUsers()}) {StatusCode = StatusCodes.Status200OK};
         }
 
         [HttpGet]
